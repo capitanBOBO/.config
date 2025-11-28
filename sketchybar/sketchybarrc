@@ -1,0 +1,66 @@
+PLUGIN_DIR="$HOME/.config/sketchybar/horizontal/plugins"
+ITEM_DIR="$HOME/.config/sketchybar/horizontal/items"
+SPOTIFY_EVENT="com.spotify.client.PlaybackStateChanged"
+
+source $HOME/.config/sketchybar/colors.sh
+source $HOME/.config/sketchybar/icons.sh
+
+export HORIZOTAL_PADDING=10
+export LABEL_HORIZONTAL_PADDING=4
+export HEIGHT=38
+export FONT="JetBrainsMono Nerd Font Mono"
+export NERD_FONT="JetBrainsMono Nerd Font Mono"
+
+bar=(
+	position=top
+	height=$HEIGHT
+	padding_left=$HORIZOTAL_PADDING
+	padding_right=$HORIZOTAL_PADDING
+	color=$BACKGROUND
+	shadow=off
+	sticky=on
+)
+sketchybar	--bar	"${bar[@]}"
+
+default=(
+	icon.font="$FONT:Bold:15.0"  
+	icon.color=$FOREGROUND       
+	label.font="$FONT:Bold:15.0" 
+	label.color=$FOREGROUND      
+	label.padding_left=$LABEL_HORIZONTAL_PADDING
+	label.padding_right=$LABEL_HORIZONTAL_PADDING
+	#background.height=28
+	#background.corner_radius=5
+	popup.background.color=$BACKGROUND
+	popup.background.corner_radius=5
+	popup.background.border_width=2
+	popup.background.border_color=$BLUE
+	popup.background.shadow.drawing=on
+)
+
+sketchybar	--default	"${default[@]}" 
+
+sketchybar --add event mode_was_changed
+sketchybar --add event display_change
+sketchybar --add event send_window
+sketchybar --add event space_mode_update
+#sketchybar --add event $SPOTIFY_EVENT
+#sketchybar --add event spotify_change
+
+source $ITEM_DIR/display.sh
+source $ITEM_DIR/spaces.sh
+#source $ITEM_DIR/spaces_as.sh
+source $ITEM_DIR/app.sh
+source $ITEM_DIR/yabai_type.sh
+source $ITEM_DIR/date_and_time.sh
+#source $ITEM_DIR/separator_right.sh
+source $ITEM_DIR/battery.sh
+#source $ITEM_DIR/wifi.sh
+source $ITEM_DIR/wifi_alias.sh
+source $ITEM_DIR/input.sh
+source $ITEM_DIR/mode.sh
+#source $ITEM_DIR/spotify.sh
+
+sketchybar --update
+
+echo "sketchybar configuration loaded.."

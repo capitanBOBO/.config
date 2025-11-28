@@ -1,0 +1,13 @@
+Simulator
+Цифровой~колориметр
+Digital~Color~Meter
+Калькулятор
+Calculator
+Календарь
+Calendar
+Alacritty
+Karabiner-Element
+Safari
+System~Preferences
+Системные~настройки
+

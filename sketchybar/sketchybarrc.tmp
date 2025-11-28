@@ -1,0 +1,63 @@
+PLUGIN_DIR="$HOME/.config/sketchybar/vertical/plugins"
+ITEM_DIR="$HOME/.config/sketchybar/vertical/items"
+SPOTIFY_EVENT="com.spotify.client.PlaybackStateChanged"
+
+source $HOME/.config/sketchybar/colors.sh
+source $HOME/.config/sketchybar/icons.sh
+
+export FONT="JetBrainsMono Nerd Font Mono"
+export NERD_FONT="JetBrainsMono Nerd Font Mono"
+
+bar=(
+	position=left
+	height=60
+	padding_left=5
+	padding_right=10
+	color=$BACKGROUND
+	shadow=off
+	sticky=on
+)
+sketchybar	--bar	"${bar[@]}"
+
+default=(
+	icon.font="$FONT:Bold:15.0"  
+	icon.color=$FOREGROUND       
+	label.font="$FONT:Bold:15.0" 
+	label.color=$FOREGROUND      
+	label.padding_left=10 
+	label.padding_right=10
+	background.height=28
+	background.corner_radius=5
+	popup.background.color=$BACKGROUND
+	popup.background.corner_radius=5
+	popup.background.border_width=2
+	popup.background.border_color=$BLUE
+	popup.background.shadow.drawing=on
+	scroll_text=on
+)
+sketchybar	--default	"${default[@]}" 
+
+events=(
+	mode_was_changed
+	send_window
+	yabai_mode_toggle
+	$SPOTIFY_EVENT
+	spotify_change
+)
+sketchybar	--add	event	"${events[@]}"
+
+source $ITEM_DIR/display.sh
+source $ITEM_DIR/space.sh
+source $ITEM_DIR/app.sh
+source $ITEM_DIR/yabai_type.sh
+source $ITEM_DIR/date_and_time.sh
+source $ITEM_DIR/separator_right.sh
+source $ITEM_DIR/battery.sh
+#source $ITEM_DIR/wifi.sh
+source $ITEM_DIR/input.sh
+source $ITEM_DIR/mode.sh
+source $ITEM_DIR/spotify.sh
+
+sketchybar --update
+
+echo "sketchybar configuration loaded.."

@@ -1,0 +1,7 @@
+{
+	"Prompt": "[WHAT]",
+	"StickySelection": true,
+	"Keymap": {
+		"C-s": "peco.ToggleSelection"
+	}
+}

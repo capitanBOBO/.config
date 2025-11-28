@@ -1,0 +1,4 @@
+ENTRY "Home" URL "/Users/capitanbobo"
+ENTRY "Downloads" URL "/Users/capitanbobo/Downloads/"
+ENTRY "Developer" URL "/Users/capitanbobo/Developer/"
+ENTRY "Knulli userdata" URL "/sftp://root@knulli/userdata"

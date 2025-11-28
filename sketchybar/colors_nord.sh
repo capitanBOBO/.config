@@ -1,0 +1,16 @@
+#!/usr/bin/env sh
+# Color Palette
+BACKGROUND=0xff2e3440
+FOREGROUND=0xffd8dee9
+BLACK=0xff3b4252
+BRIGHT_BLACK=0xff4c566a
+WHITE=0xffe5e9f0
+RED=0xffbf616a
+GREEN=0xffa3be8c
+BLUE=0xff81a1c1
+YELLOW=0xffebcb8b
+ORANGE=0xffbf616a
+MAGENTA=0xffb48ead
+CYAN=0xff88c0d0
+GREY=0xffaeb3bb
+TRANSPARENT=0x00000000

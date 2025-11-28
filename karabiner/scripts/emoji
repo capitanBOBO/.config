@@ -1,0 +1,4 @@
+#! /bin/bash
+
+printf '\360\237\246\204' | pbcopy
+osascript -e 'tell application "System Events" to key code 9 using command down'

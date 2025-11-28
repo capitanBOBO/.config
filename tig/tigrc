@@ -1,0 +1,6 @@
+bind generic	5 	@sh -c "echo %(commit) | pbcopy" 	#Copy current commit
+set editor-line-number = no
+set main-view-date-display = relative-compact
+set main-view-author-display = email-user
+set refs-view-date-display = no
+set refs-view-author-display = no
