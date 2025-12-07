@@ -1,3 +1,32 @@
+#+TITLE: SKHD CONFIGURATION
+#+AUTHOR: Ivan Savin
+#+PROPERTY: header-args :tangle skhdrc
+#+auto_tangle: t
+#+STARTUP: showeverything
+
+* Table of Contents :toc:
+- [[#fyi][FYI]]
+- [[#modes][Modes]]
+- [[#mode-toggle][Mode toggle]]
+- [[#launch][Launch]]
+- [[#float][Float]]
+- [[#stack][Stack]]
+- [[#resize][Resize]]
+- [[#place][Place]]
+- [[#insert][Insert]]
+- [[#warp][Warp]]
+- [[#focus][Focus]]
+- [[#yabai-mode][Yabai mode]]
+
+* FYI
+
+meh = shift + ctrl + alt
+hyper = shift + ctrl + alt + cmd
+
+* Modes
+
+Creating modes for different window management tasks.
+#+begin_src shell
 :: default : echo "DEFAULT" > ~/.config/skhd/currentMode.txt; sketchybar --trigger mode_was_changed
 :: run @ : echo "LAUNCH"  > ~/.config/skhd/currentMode.txt; sketchybar --trigger mode_was_changed
 :: stack @ : echo "STACK"   > ~/.config/skhd/currentMode.txt; sketchybar --trigger mode_was_changed
@@ -7,6 +36,13 @@
 :: ins @ : echo "INSERT"  > ~/.config/skhd/currentMode.txt; sketchybar --trigger mode_was_changed
 :: float @ : echo "FLOAT"  > ~/.config/skhd/currentMode.txt; sketchybar --trigger mode_was_changed 
 :: settings @ : echo "SETTINGS" > ~/.config/skhd/currentMode.txt; sketchybar --trigger mode_was_changed
+#+end_src
+
+* Mode toggle
+
+Mode enabling. For exeting from eny mode to DEFAULT tap `escape`
+
+#+begin_src shell
 
 shift + alt - l ; run
 ins < shift + alt - l ; run
@@ -26,6 +62,11 @@ stack, resize, place, warp, ins < shift + alt - f ; float
 
 ins, warp, place, resize, stack, run, float, settings < escape ; default # disable any mode
 
+#+end_src
+
+* Launch
+
+#+begin_src shell
 # Restart yabai, SKHD, sketchybar
 run < shift - r : skhd -k escape; yabai --restart-service; skhd --restart-service
 # Kitty
@@ -55,7 +96,13 @@ ctrl + shift - s : ~/.config/skhd/search.sh
 alt - r : ~/.config/skhd/openApp.sh
 
 run < q : skhd -k escape; osascript -e 'tell application "System Events" to sleep'  # sleep
+#+end_src
 
+* Float
+
+Float mode. In this mode can move and resize floating windows. FYI: Not all windows can be moved by this commands
+
+#+begin_src shell
 float < j : yabai -m window --grid 2:2:0:1:1:1
 float < k : yabai -m window --grid 2:2:1:1:1:1
 float < u : yabai -m window --grid 2:2:0:0:1:1
@@ -76,7 +123,13 @@ float < shift - down : yabai -m window --resize bottom:0:50
 float < f : yabai -m window --grid 1:1:0:0:1:1; skhd -k escape
 # toggle float
 float < t : yabai -m window --toggle float; skhd -k escape;
+#+end_src
 
+* Stack
+
+By default STACK mode enabled. Thous command allow to stack window in BSD mode
+
+#+begin_src shell
 stack < h : yabai -m window --stack west # stack window with left window
 stack < l : yabai -m window --stack east # stack window with right window
 stack < j : yabai -m window --stack south # stack window with bot window
@@ -84,6 +137,13 @@ stack < k : yabai -m window --stack north #stack window with top window
 # stack swap
 meh - n : yabai -m window --focus stack.next || yabai -m window --focus stack.first # swap to next stacked window
 meh - p : yabai -m window --focus stack.prev || yabai -m window --focus stack.last # swap to prev stacked window
+#+end_src
+
+* Resize
+
+Resizing in any mode except FLOAT
+
+#+begin_src shell
 
 # increase right, decrease left
 resize < h : yabai -m window --resize left:-50:0; yabai -m window --resize right:-50:0
@@ -106,6 +166,13 @@ alt - f : yabai -m window --toggle zoom-fullscreen; skhd -k escape
 # padding/gap change
 resize < 0x18 : sh ~/.config/skhd/resize_padding.sh dec
 resize < 0x1B : sh ~/.config/skhd/resize_padding.sh inc
+#+end_src 
+
+* Place
+
+Sending window on desktop didn't work without disabling SIP. Change space also didn't work without SIP disable. Use dafault shortcuts from macos
+
+#+begin_src shell
 
 # place window
 place < h : yabai -m window --swap west # swap window with left window
@@ -150,19 +217,29 @@ place < 6 : yabai -m window --space 6; skhd -k escape; sketchybar --trigger send
 place < 7 : yabai -m window --space 7; skhd -k escape; sketchybar --trigger send_window;
 place < 8 : yabai -m window --space 8; skhd -k escape; sketchybar --trigger send_window;
 place < 9 : yabai -m window --space 9; skhd -k escape; sketchybar --trigger send_window;
+#+end_src
 
+* Insert
+#+begin_src shell
 # insert mode
 ins < h : yabai -m window --insert west # select insert zone on left window side
 ins < l : yabai -m window --insert east # ... right window side
 ins < j : yabai -m window --insert south # ... bottom window side
 ins < k : yabai -m window --insert north # ... top window side
 ins < return : yabai -m window --insert stack # prepare window for stacking next window on it
+#+end_src
 
+* Warp
+
+#+begin_src shell
 warp < h : yabai -m window --warp west
 warp < l : yabai -m window --warp east
 warp < j : yabai -m window --warp south
 warp < k : yabai -m window --warp north
+#+end_src
 
+* Focus
+#+begin_src shell
 # Window focus
 alt - k : yabai -m window --focus north # focus on bottom window or stack
 alt - j : yabai -m window --focus south # focus on top window or stack
@@ -179,5 +256,11 @@ alt - n : yabai -m display --focus next || yabai -m display --focus first # focu
 alt - p : yabai -m display --focus prev || yabai -m display --focus last # focus prev monitor
 resize, place, ins, warp, stack < alt - n : yabai -m display --focus next || yabai -m display --focus first # focuse next monitor
 resize, place, ins, warp, stack < alt - p : yabai -m display --focus prev || yabai -m display --focus last # focus prev monitor
+#+end_src
 
+* Yabai mode
+
+Changing yabai mode: stack, bsd, float
+#+begin_src shell
 shift + alt - m : ~/.config/skhd/changeYabaiMode.sh
+#+end_src
