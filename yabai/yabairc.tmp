@@ -1,5 +1,20 @@
 #!/usr/bin/env sh
 
+# the scripting-addition must be loaded manually if
+# you are running yabai on macOS Big Sur. Uncomment
+# the following line to have the injection performed
+# when the config is executed during startup.
+#
+# for this to work you must configure sudo such that
+# it will be able to run the command without password
+#
+# see this wiki page for information:
+#  - https://github.com/koekeishiya/yabai/wiki/Installing-yabai-(latest-release)
+#
+# sudo yabai --load-sa
+# yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
+
+# general space settings
 yabai -m config layout stack
 yabai -m config top_padding 5
 yabai -m config bottom_padding 5
@@ -7,26 +22,6 @@ yabai -m config left_padding 5
 yabai -m config right_padding 5
 yabai -m config window_gap 5
 yabai -m config external_bar all:38:0
-
-yabai -m config mouse_follows_focus on
-yabai -m config focus_follows_mouse off
-yabai -m config window_placement second_child
-yabai -m config window_topmost on
-yabai -m config window_shadow on
-yabai -m config window_opacity off
-yabai -m config active_window_opacity 1.0
-yabai -m config normal_window_opacity 0.90
-yabai -m config window_border off
-yabai -m config window_border_width 6
-yabai -m config active_window_border_color 0xffff79c6
-yabai -m config normal_window_border_color 0xff555555
-yabai -m config insert_feedback_color 0xffd75f5f
-yabai -m config split_ratio 0.50
-yabai -m config auto_balance off
-yabai -m config mouse_modifier ctrl
-yabai -m config mouse_action1 move
-yabai -m config mouse_action2 resize
-yabai -m config mouse_drop_action swap
 
 yabai -m rule --add title="^Android Emulator$" manage=off
 yabai -m rule --add app="qemu-system-aarch64" manage=off
@@ -97,9 +92,36 @@ yabai -m rule --add app="Discord" manage=off
 yabai -m rule --add app="TunnelBear" manage=off
 yabai -m rule --add app="Emacs" manage=on
 yabai -m rule --apply
+# global settings
+yabai -m config mouse_follows_focus on
+yabai -m config focus_follows_mouse off
+yabai -m config window_placement second_child
+yabai -m config window_topmost on
+yabai -m config window_shadow on
+yabai -m config window_opacity off
+yabai -m config active_window_opacity 1.0
+yabai -m config normal_window_opacity 0.90
+yabai -m config window_border off
+yabai -m config window_border_width 6
+yabai -m config active_window_border_color 0xffff79c6
+yabai -m config normal_window_border_color 0xff555555
+yabai -m config insert_feedback_color 0xffd75f5f
+yabai -m config split_ratio 0.50
+yabai -m config auto_balance off
+yabai -m config mouse_modifier ctrl
+yabai -m config mouse_action1 move
+yabai -m config mouse_action2 resize
+yabai -m config mouse_drop_action swap
 
+#yabai -m signal --add event=application_front_switched \
+#	action="osascript -e 'tell application \"Übersicht\" to refresh widget id \"mybar-index-jsx\"'"
 yabai -m signal --add event=space_changed \
   action="osascript -e 'tell application \"Finder\" to set visible of process \"Alacritty\" to false'"
+#yabai -m signal --add event=window_focused \
+#	action="osascript -e 'tell application \"Übersicht\" to refresh widget id \"mybar-index-jsx\"'"
+#yabai -m signal --add event=window_destroyed \
+#	action="osascript -e 'tell application \"Übersicht\" to refresh widget id \"mybar-index-jsx\"'"
 
+# borders
 sketchybar --reload
 echo "yabai configuration loaded.."

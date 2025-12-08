@@ -1,3 +1,26 @@
+#+TITLE: Yabai Configuration
+#+AUTHOR: Ivan Savin
+#+PROPERTY: header-args :tangle yabairc
+#+auto_tangle: t
+#+STARTUP: showeverything
+
+* Table of Contents :toc:
+- [[#fyi][FYI]]
+- [[#general-space-settings][General space settings]]
+- [[#global-settings][Global settings]]
+- [[#apps-rules][Apps rules]]
+- [[#events][Events]]
+- [[#finishing][Finishing]]
+
+* FYI
+the scripting-addition must be loaded manually if
+you are running yabai on macOS Big Sur.
+see this wiki page for information:
+ - https://github.com/koekeishiya/yabai/wiki/Installing-yabai-(latest-release)
+
+* General space settings
+#+begin_src shell
+
 #!/usr/bin/env sh
 
 yabai -m config layout stack
@@ -7,7 +30,10 @@ yabai -m config left_padding 5
 yabai -m config right_padding 5
 yabai -m config window_gap 5
 yabai -m config external_bar all:38:0
+#+end_src
 
+* Global settings
+#+begin_src shell
 yabai -m config mouse_follows_focus on
 yabai -m config focus_follows_mouse off
 yabai -m config window_placement second_child
@@ -27,7 +53,10 @@ yabai -m config mouse_modifier ctrl
 yabai -m config mouse_action1 move
 yabai -m config mouse_action2 resize
 yabai -m config mouse_drop_action swap
+#+end_src
 
+* Apps rules
+#+begin_src shell
 yabai -m rule --add title="^Android Emulator$" manage=off
 yabai -m rule --add app="qemu-system-aarch64" manage=off
 yabai -m rule --add app="Alacritty" manage=off
@@ -97,9 +126,17 @@ yabai -m rule --add app="Discord" manage=off
 yabai -m rule --add app="TunnelBear" manage=off
 yabai -m rule --add app="Emacs" manage=on
 yabai -m rule --apply
+#+end_src
 
+* Events
+#+begin_src shell
 yabai -m signal --add event=space_changed \
   action="osascript -e 'tell application \"Finder\" to set visible of process \"Alacritty\" to false'"
+#+end_src
 
+* Finishing
+
+#+begin_src shell
 sketchybar --reload
 echo "yabai configuration loaded.."
+#+end_src

@@ -37,7 +37,8 @@ run < shift - b : open -a Brave\ Browser -n --args -incognito; skhd -k escape
 # Kitty instance as editor
 alt + shift - e : kitty -e zsh -c "cd ~/Developer && nvim ."
 # Finder
-run < f : open -a Finder; skhd -k escape # open Finder
+# run < f : open -a Finder; skhd -k escape # open Finder
+run < f : skhd -k escape; kitty -e zsh -c "cd ~ && mc -u"
 
 run < shift - s : open "x-apple.systempreferences:com.apple.preference"; skhd -k escape #open System Preferences
 run < a : skhd -k escape; ~/.config/skhd/soundSource.sh
