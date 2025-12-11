@@ -29,8 +29,6 @@ default=(
 	label.color=$FOREGROUND      
 	label.padding_left=$LABEL_HORIZONTAL_PADDING
 	label.padding_right=$LABEL_HORIZONTAL_PADDING
-	#background.height=28
-	#background.corner_radius=5
 	popup.background.color=$BACKGROUND
 	popup.background.corner_radius=5
 	popup.background.border_width=2
@@ -44,23 +42,16 @@ sketchybar --add event mode_was_changed
 sketchybar --add event display_change
 sketchybar --add event send_window
 sketchybar --add event space_mode_update
-#sketchybar --add event $SPOTIFY_EVENT
-#sketchybar --add event spotify_change
 
 source $ITEM_DIR/display.sh
 source $ITEM_DIR/spaces.sh
-#source $ITEM_DIR/spaces_as.sh
 source $ITEM_DIR/app.sh
 source $ITEM_DIR/yabai_type.sh
 source $ITEM_DIR/date_and_time.sh
-#source $ITEM_DIR/separator_right.sh
 source $ITEM_DIR/battery.sh
-#source $ITEM_DIR/wifi.sh
 source $ITEM_DIR/wifi_alias.sh
 source $ITEM_DIR/input.sh
 source $ITEM_DIR/mode.sh
-#source $ITEM_DIR/spotify.sh
 
 sketchybar --update
-
 echo "sketchybar configuration loaded.."

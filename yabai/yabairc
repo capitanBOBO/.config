@@ -1,3 +1,4 @@
+
 #!/usr/bin/env sh
 
 yabai -m config layout stack
@@ -101,5 +102,4 @@ yabai -m rule --apply
 yabai -m signal --add event=space_changed \
   action="osascript -e 'tell application \"Finder\" to set visible of process \"Alacritty\" to false'"
 
-sketchybar --reload
 echo "yabai configuration loaded.."

@@ -8,6 +8,7 @@
 :: float @ : echo "FLOAT"  > ~/.config/skhd/currentMode.txt; sketchybar --trigger mode_was_changed 
 :: settings @ : echo "SETTINGS" > ~/.config/skhd/currentMode.txt; sketchybar --trigger mode_was_changed
 
+
 shift + alt - l ; run
 ins < shift + alt - l ; run
 run < s ; settings
@@ -26,8 +27,9 @@ stack, resize, place, warp, ins < shift + alt - f ; float
 
 ins, warp, place, resize, stack, run, float, settings < escape ; default # disable any mode
 
+
 # Restart yabai, SKHD, sketchybar
-run < shift - r : skhd -k escape; yabai --restart-service; skhd --restart-service
+run < shift - r : skhd -k escape; yabai --restart-service; skhd --restart-service; sketchybar --reload
 # Kitty
 alt + shift - return : open -a Kitty -n # run Kitty
 # Brave Browser
@@ -86,6 +88,7 @@ stack < k : yabai -m window --stack north #stack window with top window
 meh - n : yabai -m window --focus stack.next || yabai -m window --focus stack.first # swap to next stacked window
 meh - p : yabai -m window --focus stack.prev || yabai -m window --focus stack.last # swap to prev stacked window
 
+
 # increase right, decrease left
 resize < h : yabai -m window --resize left:-50:0; yabai -m window --resize right:-50:0
 # increase left, decrease right
@@ -107,6 +110,7 @@ alt - f : yabai -m window --toggle zoom-fullscreen; skhd -k escape
 # padding/gap change
 resize < 0x18 : sh ~/.config/skhd/resize_padding.sh dec
 resize < 0x1B : sh ~/.config/skhd/resize_padding.sh inc
+
 
 # place window
 place < h : yabai -m window --swap west # swap window with left window

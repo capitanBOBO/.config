@@ -5,6 +5,8 @@
 #+STARTUP: showeverything
 
 * Table of Contents :toc:
+
+* 
 - [[#fyi][FYI]]
 - [[#general-space-settings][General space settings]]
 - [[#global-settings][Global settings]]
@@ -137,6 +139,5 @@ yabai -m signal --add event=space_changed \
 * Finishing
 
 #+begin_src shell
-sketchybar --reload
 echo "yabai configuration loaded.."
 #+end_src

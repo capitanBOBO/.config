@@ -1,13 +1,103 @@
 #+title: Sketchybar config
+#+PROPERTY: header-args :tangle sketchybarrc
 
-This is my very basic [[https://felixkratz.github.io/SketchyBar/][SketchyBar]] configuration.
-It is minimal and close to the default while still being pretty and functional.
+* Table of Contents :toc:
+- [[#variables][Variables]]
+- [[#source][Source]]
+- [[#exports][Exports]]
+- [[#bar-general-settings][Bar general settings]]
+- [[#default-settings][Default settings]]
+- [[#events][Events]]
+- [[#sourcing-plagins][Sourcing plagins]]
+- [[#finishing][Finishing]]
 
-** Features
-- Toggle appearance using ~osascript~
-- Wifi dropdown with SSID and speed
-- Battery level
-- Date and time
-- Spaces
-- Window title
-- Native look using SF Symbols and the SF Mono font.
+* Variables
+Some variables with path to plugins and items directories. Also with spotify event name (Not using it right now).
+#+begin_src shell
+PLUGIN_DIR="$HOME/.config/sketchybar/horizontal/plugins"
+ITEM_DIR="$HOME/.config/sketchybar/horizontal/items"
+SPOTIFY_EVENT="com.spotify.client.PlaybackStateChanged"
+#+end_src
+
+* Source
+
+  Sourcing some colors and icons
+
+#+begin_src shell
+source $HOME/.config/sketchybar/colors.sh
+source $HOME/.config/sketchybar/icons.sh
+#+end_src
+
+* Exports
+#+begin_src shell
+export HORIZOTAL_PADDING=10
+export LABEL_HORIZONTAL_PADDING=4
+export HEIGHT=38
+export FONT="JetBrainsMono Nerd Font Mono"
+export NERD_FONT="JetBrainsMono Nerd Font Mono"
+#+end_src
+
+* Bar general settings
+
+#+begin_src shell
+bar=(
+	position=top
+	height=$HEIGHT
+	padding_left=$HORIZOTAL_PADDING
+	padding_right=$HORIZOTAL_PADDING
+	color=$BACKGROUND
+	shadow=off
+	sticky=on
+)
+sketchybar	--bar	"${bar[@]}"
+#+end_src
+
+* Default settings
+
+#+begin_src shell
+default=(
+	icon.font="$FONT:Bold:15.0"  
+	icon.color=$FOREGROUND       
+	label.font="$FONT:Bold:15.0" 
+	label.color=$FOREGROUND      
+	label.padding_left=$LABEL_HORIZONTAL_PADDING
+	label.padding_right=$LABEL_HORIZONTAL_PADDING
+	popup.background.color=$BACKGROUND
+	popup.background.corner_radius=5
+	popup.background.border_width=2
+	popup.background.border_color=$BLUE
+	popup.background.shadow.drawing=on
+)
+
+sketchybar	--default	"${default[@]}" 
+#+end_src
+
+* Events
+
+#+begin_src shell
+sketchybar --add event mode_was_changed
+sketchybar --add event display_change
+sketchybar --add event send_window
+sketchybar --add event space_mode_update
+#+end_src
+
+* Sourcing plagins
+
+#+begin_src shell
+source $ITEM_DIR/display.sh
+source $ITEM_DIR/spaces.sh
+source $ITEM_DIR/app.sh
+source $ITEM_DIR/yabai_type.sh
+source $ITEM_DIR/date_and_time.sh
+source $ITEM_DIR/battery.sh
+source $ITEM_DIR/wifi_alias.sh
+source $ITEM_DIR/input.sh
+source $ITEM_DIR/mode.sh
+#+end_src
+
+* Finishing
+
+#+begin_src shell
+sketchybar --update
+echo "sketchybar configuration loaded.."
+#+end_src

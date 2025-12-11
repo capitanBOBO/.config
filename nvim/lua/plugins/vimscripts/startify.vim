@@ -1,8 +1,8 @@
 function s:configfiles()
       return [
-            \ {'line': 'zsh', 'path': '~/.zshrc'},
-            \ {'line': 'skhd', 'path': '~/.config/skhd/skhdrc'},
-            \ {'line': 'yabai', 'path': '~/.config/yabai/yabairc'},
+            \ {'line': 'zsh', 'path': '~/.config/zsh/zshrc' },
+            \ {'line': 'skhd', 'path': '~/.config/skhd/README.org'},
+            \ {'line': 'yabai', 'path': '~/.config/yabai/README.org'},
             \ {'line': 'nvim', 'path': '~/.config/nvim'},
             \ {'line': 'alacritty', 'path': '~/.config/alacritty/alacritty.toml'},
             \ {'line': 'tmux', 'path': '~/.config/tmux/tmux.conf'},
