@@ -6,8 +6,8 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 # Source secrets
-if [ -f ./secrets.zsh ]; then
-  source ./secrets.zsh
+if [ -f $HOME/.config/zsh/secrets.zsh ]; then
+  source $HOME/.config/zsh/secrets.zsh
   echo "Secrets sourced"
 else 
   echo "No secrets file found"

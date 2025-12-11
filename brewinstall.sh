@@ -118,7 +118,7 @@ function Init {
   if command -v brew >/dev/null 2>&1; then
     echo "Homebrew is installed"
   else
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   fi
 	#Shell dialog box
 	ShowInstallingMessage "dialog"
