@@ -191,8 +191,11 @@ filetype {*.pdf},<application/pdf>
        \ open -a Preview.app,
        \ {Open in Skim}
        \ open -a Skim.app,
-fileviewer {*.pdf},<application/pdf> pdftotext -nopgbrk %c -
-
+" fileviewer {*.pdf},<application/pdf> pdftotext -nopgbrk %c -
+fileviewer *.pdf
+        \ vifmimg pdf %px %py %pw %ph %c
+        \ %pc
+        \ vifmimg clear
 " PostScript
 filetype {*.ps,*.eps,*./*.ps.gz},<application/postscript> open -a Preview.app
 

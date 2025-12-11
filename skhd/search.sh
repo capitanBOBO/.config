@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-source ~/.config/aerospace/scripts/alias.sh
 declare -A PREFIXES
 
 PREFIXES["-y"]="YouTube"
@@ -24,7 +23,7 @@ DICT["Google"]="https://google.com/search?q="
 # if [[ -z "$KEY" ]]; then
 #   exit
 # fi
-INPUT=$(echo "" | choose_base -e -m -n 0 -p "Search WHAT")
+INPUT=$(echo "" | choose -e -m -n 0 -p "Search WHAT")
 PREFIX=$(echo $INPUT | cut -d " " -f1)
 if [[ -v PREFIXES[$PREFIX] ]]; then
   WHERE=${PREFIXES[$PREFIX]}

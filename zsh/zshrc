@@ -8,9 +8,6 @@ fi
 # Source secrets
 if [ -f $HOME/.config/zsh/secrets.zsh ]; then
   source $HOME/.config/zsh/secrets.zsh
-  echo "Secrets sourced"
-else 
-  echo "No secrets file found"
 fi
 
 # Path to your oh-my-zsh installation.
