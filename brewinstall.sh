@@ -55,6 +55,7 @@ function FetchConfigs {
 
 function InstallTools {
 	dialog --erase-on-exit --checklist "Select tools for install.\nUse Spacebar for selection." 20 80 30 \
+    "choose-gui" "Spotlight-like app launcher and not only..." 'on' \
 		"neovim" "Vim editor" 'on' \
 		"peco" "Filter tool" 'on' \
 		"yank" "Terminal copy tool" 'on' \
