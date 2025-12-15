@@ -140,4 +140,6 @@ yabai -m signal --add event=space_changed \
 
 #+begin_src shell
 echo "yabai configuration loaded.."
+sketchybar --reload
+borders
 #+end_src

@@ -103,3 +103,5 @@ yabai -m signal --add event=space_changed \
   action="osascript -e 'tell application \"Finder\" to set visible of process \"Alacritty\" to false'"
 
 echo "yabai configuration loaded.."
+sketchybar --reload
+borders

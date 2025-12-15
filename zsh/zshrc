@@ -21,7 +21,6 @@ export PATH="$PATH":"$HOME/.pub-cache/bin"
 export PATH="$PATH:$HOME/.local/bin"
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
-#ZSH_THEME="dracula"
 ZSH_DISABLE_COMPFIX="true"
 # Command auto-correction.
 ENABLE_CORRECTION="true"
@@ -305,16 +304,6 @@ blist() {
   fi
 }
 
-xcodeIndex() {
-	if [ "$1" = "0" ]
-	then
-		defaults write com.apple.dt.XCode IDEIndexDisable 1
-	elif [ "$1" = "1" ]
-	then
-		defaults write com.apple.dt.XCode IDEIndexDisable 0
-	fi
-}
-
 # run application from lilst
 run() {
   if [[ "$TERM_PROGRAM" == "tmux" ]]; then
@@ -370,3 +359,7 @@ search() {
   # This loads nvm bash_completion
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
+# Run fastfetch only in interactive shells
+if [[ $- == *i* ]]; then
+  fastfetch
+fi
