@@ -1,17 +1,8 @@
 #+TITLE: ZSH configuration
 #+AUTHOR: Ivan Savin
 #+PROPERTY: header-args: :tangle zshrctmp
-
-* Table of Contents :toc:
-
-
-* Q pre block
-
-Keep at the top of this file.
-
-#+begin_src shell
-  # [ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.pre.zsh"
-#+end_src
+#+auto_tangle: t
+#+STARTUP: showeverything
 
 * Powerlevel10k magic
 
@@ -23,6 +14,331 @@ confirmations, etc.) must go above this block; everything else may go below.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
+
+source $(brew --prefix)/share/powerlevel10k/powerlevel10k.zsh-theme
+
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 #+end_src 
 
+* Source secret files
 
+#+begin_src shell
+# Source secrets
+if [ -f $HOME/.config/zsh/secrets.zsh ]; then
+  source $HOME/.config/zsh/secrets.zsh
+fi
+#+end_src
+
+* ZSH options
+
+#+begin_src shell
+
+ZSH_DISABLE_COMPFIX="true"
+
+# Command auto-correction.
+ENABLE_CORRECTION="true"
+
+# Display red dots whilst waiting for completion.
+COMPLETION_WAITING_DOTS="true"
+
+# ZSH_THEME="dracula"
+
+# Plugins
+plugins=(git sudo macos zsh-autosuggestions)
+
+source $ZSH/oh-my-zsh.sh
+#+end_src
+
+* Exports
+
+#+begin_src shell
+
+# Path to your oh-my-zsh installation.
+export ZSH="/Users/$USER/.oh-my-zsh"
+export ANDROID_HOME="$HOME/Developer/android_sdk"
+export PATH="$PATH:$HOME/Developer/flutter/bin"
+export PATH="$PATH:$ANDROID_HOME/cmdline-tools/latest/bin"
+export PATH="$PATH":"$HOME/.pub-cache/bin"
+#export PATH="$PATH:/Users/user/projects/sourcekit-lsp/.build/debug/"
+#export SOURCEKIT_TOOLCHAIN_PATH="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/sourcekit-lsp"
+export PATH="$PATH:$HOME/.local/bin"
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+export DEFAULT_USER=$USER
+export EDITOR=nvim
+#+end_src
+
+* FZF settings
+
+#+begin_src shell
+source <(fzf --zsh)
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export FZF_DEFAULT_OPS="--extended"
+#+end_src
+
+* NVM settings
+
+#+begin_src shell
+export NVM_DIR="$HOME/.nvm"
+  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+  [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completio
+
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+#+end_src
+* Aliases
+
+#+begin_src shell
+# Aliases
+alias mc="mc -u"
+alias choose="choose -b 66d9ef -c f4bf75"
+alias f="flutter"
+alias lg="lazygit"
+alias vim=nvim
+alias gvim="open -a goneovim"
+alias whereis="which"
+alias weather="python3 ~/configfiles/scripts/getWeatherApp/getWeather.py"
+alias r="run"
+alias s="search"
+alias p="peco"
+alias y="yank"
+alias b="brew"
+alias h="history | cut -c 8-"
+alias hsrch="eval \$(history | peco | awk '{ \$1=\"\"; print }')"
+alias g="git"
+alias sp="spotify"
+alias toprojects="cd ~/Developer"
+alias glog="git log"
+alias gsts="git status --short"
+alias tsts="tig status"
+alias gstsh="git stash"
+alias gstsha="git stash apply"
+alias gstshcl="git stash clear"
+alias gdd="git add ."
+alias gcmt="git commit"
+alias gcmtm="git commit -m"
+alias gps="git push"
+alias gpl="git pull"
+alias gbr="git branch"
+alias gchk="git checkout"
+alias gmrg="git merge"
+alias gpsus="git push --set-upstream"
+alias gpsuso="git push --set-upstream origin"
+alias ghist="git log --oneline"
+alias pup="pod update"
+alias pin="pod install"
+alias gupdt="git remote update --prune"
+alias ..="cd .."
+alias ...="cd ../.."
+alias .h="cd ~"
+alias ls="eza --all --icons --group-directories-first --color=always"
+alias lsl="eza --all --icons -l --group-directories-first --color=always"
+alias nukedd="rm -rf ~/Library/Developer/Xcode/DerivedData"
+alias fm="vifm ."
+alias showtemp="sudo powermetrics --samplers smc |grep -i \"CPU die temperature\""
+alias ql="qlmanage -p"
+#+end_src
+
+* Key bindings
+
+#+begin_src shell
+bindkey ^D forward-word
+bindkey ^S backward-word 
+#+end_src
+
+* Custom functions
+** History search and copy to clipboard
+   #+begin_src shell
+   cs() {
+     ARG="$1"
+     history | fzf --prompt="History search: " | cut -w -f3- | sed 's/\t/ /g' | pbcopy
+     if [[ "$ARG" == "-ex" ]]; then
+       skhd -k "cmd - v"
+     fi
+   }
+   #+end_src
+** Check git diff for changed files
+   #+begin_src shell
+   gdiff() {
+     LIST=$(git diff --name-only)
+     if [[ -z "$LIST" ]]; then
+       echo "Nothing changed"
+       return
+     fi
+     FILE=$(echo $LIST | fzf --prompt="Filter: " --preview 'bat --diff --color=always {}')
+     if [ -n "$FILE" ]
+     then
+       echo $FILE
+       bat --diff $FILE
+     fi
+   }
+   #+end_src
+** CD and LS together
+   #+begin_src shell
+   cdls() {
+     while true; do
+       RES=$(echo "../\n$(eza -a)" | fzf --preview 'if [[ -f {} ]]; then bat --color=always {}; elif [[ -d {} ]]; then tree -C {}; fi')
+       if [[ -z "$RES" ]]; then
+         break 
+       elif [[ "${RES##*.}" == "xcodeproj" || "${RES##*.}" == "xcworkspace" ]]; then
+         open -a Xcode $RES
+         break 
+       elif [[ "${RES##*.}" == "doc" || "${RES##*.}" == "docx" || "${RES##*.}" == "odt" ]]; then
+         open -a LibreOffice $RES
+       elif [[ "${RES##*.}" == "pdf" ]]; then
+         open $RES
+         break
+       elif [[ -f $RES ]]; then
+         vim $RES
+         break
+       elif [[ -d $RES ]]; then
+         cd $RES
+       fi
+     done
+   }
+   #+end_src
+** Brew packages installer
+   #+begin_src shell
+   bsearch() {
+     CASK=$1
+     RES=$(fzf --ansi --phony --prompt="Brew search: " \
+         --bind "change:reload:brew search $CASK {q} || true" \
+         --preview "brew info $CASK {1} 2>/dev/null" < /dev/null)
+
+     while true; do
+       if [[ -n "$RES" ]]; then
+         echo -n "(I)install or open the (h)omepage of ${RES[@]}. (Q)uit or (b)ack: "
+           read -k 1 INPUT
+           if [[ "${INPUT:l}" == "i" ]]; then
+               if [[ -n "$(brew list $CASK | rg -x $RES)" ]]; then
+                 echo -n "$RES already installed. Reinstall? (y/n): "
+                 read -k 1 ANSWER
+                 echo
+                 if [[ "${ANSWER:l}" == "y" ]]; then
+                   echo
+                   brew reinstall $CASK $RES
+                   break
+                 fi
+               else
+                 echo
+                 brew install $CASK $RES
+                 break
+               fi
+           elif [[ "${INPUT:l}" == "h" ]]; then
+             echo
+             brew home $CASK $RES
+           elif [[ "${INPUT:l}" == "q" ]]; then
+             break
+           elif [[ "${INPUT:l}" == "b" ]]; then
+             echo
+             RES=$(fzf --ansi --phony --prompt="Brew search: " \
+                 --bind "change:reload:brew search $CASK {q} || true" \
+                 --preview "brew info $CASK {1} 2>/dev/null" < /dev/null)
+           else
+             echo -n "\nInvalid option\n"
+           fi
+       fi
+     done
+   }
+   #+end_src
+** Brew list installed packages
+   #+begin_src shell
+   blist() {
+     if [[ -n "$1" ]]; then
+       case "$1" in
+         "--cask")
+           PREVIEW='brew info --cask {}'
+           ;;
+         "--formula")
+           PREVIEW='brew info --formula {}'
+           ;;
+         *)
+           echo "Invalid parameter: $1\nExample: blist [--cask | --formula]"
+           return
+           ;;
+       esac
+     else
+       PREVIEW='brew info {}'
+     fi
+       
+     RES=($(brew list $1 | fzf -m --prompt="Search: " --preview $PREVIEW))
+     if [[ ${#RES[@]} -ne 0 ]]; then
+       echo -n "(U)pgrade, u(n)install or open the (h)omepage of ${RES[@]}: "
+       read -k 1 INPUT
+       echo
+       if [[ "${INPUT:l}" == "u" ]]; then
+         brew upgrade $1 ${RES[@]}
+       elif [[ "${INPUT:l}" == "h" ]]; then
+         if [[ ${#RES[@]} -ne 1 ]]; then
+           RES=($(printf '%s\n' "${RES[@]}" | fzf -m --prompt="Select brews for showing homepage (can select multiple): "))
+         fi
+         if [[ ${#RES[@]} -ne 0 ]]; then
+           echo
+           brew home $1 ${RES[@]}
+         fi
+       elif [[ "${INPUT:l}" == "n" ]]; then
+         echo -n "Are you sure you want to uninstall $1 ${RES[@]}? (y/n): "
+         read -k 1 ANSWER
+         echo
+         if [[ "${ANSWER:l}" == "y" || "${ANSWER:l}" == "yes" ]]; then
+           brew uninstall $1 ${RES[@]}
+         fi
+       fi
+     fi
+   }
+   #+end_src
+
+** Run application
+   #+begin_src shell
+   run() {
+     if [[ "$TERM_PROGRAM" == "tmux" ]]; then
+       FZF_COMMAND=fzf-tmux
+     else
+       FZF_COMMAND=fzf
+     fi
+     OPT=$(eza /Applications /System/Applications /System/Applications/Utilities | grep ".app" | $FZF_COMMAND --prompt="Open app: ")
+     if [ -n "$OPT" ]
+     then
+       if [[ -d $OPT ]]
+       then
+         $(run)
+       else 
+         OPT=$(echo $OPT | sed 's/ /\\ /g' | sed "s/'//g")
+         echo "Open $OPT"
+         open -a $OPT
+       fi
+     fi
+   }
+   #+end_src
+
+** Web search
+   #+begin_src shell
+   search() {
+     ARG="$1"
+     declare -A DICT=( \
+       ["DuckDuckGo"]="https://www.duckduckgo.com/?q=" \
+       ["YouTube"]="https://www.youtube.com/results?search_query=" \
+       ["Google"]="https://google.com/search?q=" \
+       ["AppleDev"]="https://developer.apple.com/search/?q=")
+     STR=""
+     for K in ${(k)DICT}
+     do
+       STR+="$K\n"
+     done
+     if [ "$ARG" = "-d" ]
+     then
+       KEY="DuckDuckGo"
+     elif [ -z "$ARG" ]
+     then
+       KEY=$(print $STR | peco)
+     else
+       echo "Incorrect parameter"
+       return
+     fi
+     if [ -n "$KEY" ]
+     then
+       read "SEARCH?$KEY: "
+       QUERY=$(print "$SEARCH" | sed 's/ /+/g')
+       open ${DICT[$KEY]}$QUERY
+     fi
+   }
+   #+end_src

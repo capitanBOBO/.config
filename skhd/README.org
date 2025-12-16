@@ -68,7 +68,7 @@ ins, warp, place, resize, stack, run, float, settings < escape ; default # disab
 
 #+begin_src shell
 # Restart yabai, SKHD, sketchybar
-run < shift - r : skhd -k escape; yabai --restart-service; skhd --restart-service; sketchybar --reload
+run < shift - r : skhd -k escape; yabai --restart-service; skhd --restart-service
 # Kitty
 alt + shift - return : open -a Kitty -n # run Kitty
 # Brave Browser
