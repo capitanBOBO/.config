@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+source ~/.config/skhd/choose_default.sh
+
 declare -A PREFIXES
 
 PREFIXES["-y"]="YouTube"
@@ -23,7 +25,7 @@ DICT["Google"]="https://google.com/search?q="
 # if [[ -z "$KEY" ]]; then
 #   exit
 # fi
-INPUT=$(echo "" | choose -e -m -n 0 -p "Search WHAT")
+INPUT=$(echo "" | choose_default -e -m -n 0 -p "Search WHAT")
 PREFIX=$(echo $INPUT | cut -d " " -f1)
 if [[ -v PREFIXES[$PREFIX] ]]; then
   WHERE=${PREFIXES[$PREFIX]}
