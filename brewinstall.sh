@@ -130,8 +130,7 @@ function StartInstallation {
   case $response in
   0)
     dialog --erase-on-exit --title "Warning" --msgbox "You password may be required!" 5 40
-    echo "InstallAll"
-    # InstallAll
+    InstallAll
     ;;
   1)
     echo "Whyyyy?!"
