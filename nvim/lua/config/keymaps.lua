@@ -37,7 +37,7 @@ keymap.set("n", "b,", ":BufferLineMovePrev<Return>", { silent = true })
 keymap.set("n", "<C-a>", "gg<S-v>G")
 
 -- Which key keymaps
-keymap.set("n", "<leader>bn", newBuffer, { silent = true, desc = "New buffer" })
+-- keymap.set("n", "<leader>bn", newBuffer, { silent = true, desc = "New buffer" })
 keymap.set("n", "<leader>fs", ":w<Return>", { silent = true, desc = "Save file" })
 keymap.set("n", "<leader>fq", ":wq<Return>", { silent = true, desc = "Save and quit" })
 keymap.set("n", "<leader>be", ":Telescope buffers<Return>", { silent = true, desc = "Buffer explorer" })
